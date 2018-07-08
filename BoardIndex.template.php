@@ -26,13 +26,8 @@ function template_main()
 	if ($settings['show_newsfader'] && !empty($context['fader_news_lines']))
 	{
 		echo '
-	<div id="newsfader">
-		<div class="cat_bar">
-			<h3 class="catbg">
-				<img id="newsupshrink" src="', $settings['images_url'], '/collapse.gif" alt="*" title="', $txt['upshrink_description'], '" align="bottom" style="display: none;" />
-				', $txt['news'], '
-			</h3>
-		</div>
+	<div id="newsfader" class="alert alert-exodus">
+		<h3>', $txt['news'], '</h3>
 		<ul class="reset" id="smfFadeScroller"', empty($options['collapse_news_fader']) ? '' : ' style="display: none;"', '>';
 
 			foreach ($context['news_lines'] as $news)
@@ -126,13 +121,7 @@ function template_main()
 		{
 
 		echo '
-			<tbody class="content" id="category_', $category['id'], '_boards">
-			<tr class="top_board">
-				<td></td>
-				<td align="left">', $txt['board'],'</td>
-				<td></td>
-				<td></td>
-            </tr>';
+			<tbody class="content" id="category_', $category['id'], '_boards">';
 			/* Each board in each category's boards has:
 			new (is it new?), id, name, description, moderators (see below), link_moderators (just a list.),
 			children (see below.), link_children (easier to use.), children_new (are they new?),
@@ -140,18 +129,18 @@ function template_main()
 			foreach ($category['boards'] as $board)
 			{
 				echo '
-				<tr id="board_', $board['id'], '" class="boardbg">
-					<td class="icon"', !empty($board['children']) ? ' rowspan="1"' : '', '>
+				<tr id="board_', $board['id'], '" class="windowbg4">
+					<td class="icon" style="height:80px;"> 
 						<a href="', ($board['is_redirect'] || $context['user']['is_guest'] ? $board['href'] : $scripturl . '?action=unread;board=' . $board['id'] . '.0;children'), '">';
 
 				// If the board or children is new, show an indicator.
 				if ($board['new'] || $board['children_new'])
 					echo '
-							<img src="', $settings['images_url'], '/', $context['theme_variant_url'], 'on', $board['new'] ? '' : '', '.png" alt="', $txt['new_posts'], '" title="', $txt['new_posts'], '" />';
+							<img src="', $settings['images_url'], '/', $context['theme_variant_url'], 'on', $board['new'] ? '' : '2', '.png" alt="', $txt['new_posts'], '" title="', $txt['new_posts'], '" />';
 				// Is it a redirection board?
 				elseif ($board['is_redirect'])
 					echo '
-							<img src="', $settings['images_url'], '/', $context['theme_variant_url'], 'on2.png" alt="*" title="*" />';
+							<img src="', $settings['images_url'], '/', $context['theme_variant_url'], 'redirect.png" alt="*" title="*" />';
 				// No new posts at all! The agony!!
 				else
 					echo '
@@ -171,11 +160,8 @@ function template_main()
 				echo '
 
 						<p>', $board['description'] , '</p>';
-
-				// Show the "Moderators: ". Each has name, href, link, and id. (but we're gonna use link_moderators.)
-				if (!empty($board['moderators']))
-					echo '
-						<p class="moderators">', count($board['moderators']) == 1 ? $txt['moderator'] : $txt['moderators'], ': ', implode(', ', $board['link_moderators']), '</p>';
+						
+				// Show the "Child Boards: ". (there's a link_children but we're going to bold the new ones...)
 				if (!empty($board['children']))
 				{
 					// Sort the links into an array with new boards bold so it can be imploded.
@@ -195,18 +181,26 @@ function template_main()
 
 						$children[] = $child['new'] ? '<strong>' . $child['link'] . '</strong>' : $child['link'];
 					}
-						echo'
-				            <p><strong>', $txt['parent_boards'], '</strong>: ', implode(', ', $children), '</p>';
+					echo '
+							<p id="board_', $board['id'], '_children" class="children">
+								<strong>', $txt['parent_boards'], '</strong>: ', implode(', ', $children), '
+							</p>';
 				}
+				
+				// Show the "Moderators: ". Each has name, href, link, and id. (but we're gonna use link_moderators.)
+				if (!empty($board['moderators']))
+					echo '
+						<p class="moderators">', count($board['moderators']) == 1 ? $txt['moderator'] : $txt['moderators'], ': ', implode(', ', $board['link_moderators']), '</p>';
+
 				// Show some basic information about the number of posts, etc.
 					echo '
 					</td>
-					<td class="stats">
+					<td class="stats hidden-xs hidden-sm">
 						<p>', comma_format($board['posts']), ' ', $board['is_redirect'] ? $txt['redirects'] : $txt['posts'], ' <br />
 						', $board['is_redirect'] ? '' : comma_format($board['topics']) . ' ' . $txt['board_topics'], '
 						</p>
 					</td>
-					<td class="lastpost">';
+					<td class="lastpost hidden-xs hidden-sm">';
 
 				/* The board's and children's 'last_post's have:
 				time, timestamp (a number that represents the time.), id (of the post), topic (topic id.),
@@ -247,26 +241,11 @@ function template_main()
 		);
 
 		echo '
-		<ul class="reset">
-			<li class="floatleft"><img src="', $settings['images_url'], '/', $context['theme_variant_url'], 'on.png" alt="" /> ', $txt['new_posts'], '</li>
-			<li class="floatleft"><img src="', $settings['images_url'], '/', $context['theme_variant_url'], 'off.png" alt="" /> ', $txt['old_posts'], '</li>
-			<li class="floatleft"><img src="', $settings['images_url'], '/', $context['theme_variant_url'], 'on2.png" alt="" /> ', $txt['redirect_board'], '</li>
-		</ul>
 	</div>';
 
 		// Show the mark all as read button?
 		if ($settings['show_mark_read'] && !empty($context['categories']))
 			echo '<div class="mark_read">', template_button_strip($mark_read_button, 'right'), '</div>';
-	}
-	else
-	{
-		echo '
-	<div id="posting_icons" class="flow_hidden">
-		<ul class="reset">
-			<li class="floatleft"><img src="', $settings['images_url'], '/on.png" alt="" /> ', $txt['old_posts'], '</li>
-			<li class="floatleft"><img src="', $settings['images_url'], '/on2.png" alt="" /> ', $txt['redirect_board'], '</li>
-		</ul>
-	</div>';
 	}
 
 	template_info_center();
@@ -278,28 +257,73 @@ function template_info_center()
 
 	// Here's where the "Info Center" starts...
 	echo '
-	<div class="cat_bar clear">
-		<h3 class="catbg">
-			<img class="icon" id="upshrink_ic" src="', $settings['images_url'], '/collapse.gif" alt="*" title="', $txt['upshrink_description'], '" style="display: none;" />
-			', sprintf($txt['info_center_title'], $context['forum_name_html_safe']), '
-		</h3>
-	</div>
-	<div id="upshrinkHeaderIC"', empty($options['collapse_header_ic']) ? '' : ' style="display: none;"', '>';
+	<br /><br /><br />
+	<div class="clear" id="IC" role="tabpanel">
+		<div class="cat_bar">
+			<h3 class="catbg">
+				<img class="icon" id="upshrink_ic" src="', $settings['images_url'], '/collapse.gif" alt="*" title="', $txt['upshrink_description'], '" style="display: none;" />
+				', sprintf($txt['info_center_title'], $context['forum_name_html_safe']), '
+			</h3>
+		</div>
+		<div id="upshrinkHeaderIC"', empty($options['collapse_header_ic']) ? '' : ' style="display: none;"', '>
+			<ul class="nav nav-tabs" role="tablist">';
+			if (!empty($settings['number_recent_posts']) && (!empty($context['latest_posts']) || !empty($context['latest_post'])))
+			{
+			echo'
+				<li role="presentation">
+					<a href="#recent" aria-controls="recent" role="tab" data-toggle="tab">
+						<i class="fa fa-comments"></i>
+						<span>&nbsp;', $txt['recent_posts'], '</span>
+					</a>
+				</li>';
+			}
+			if ($context['show_calendar'])
+			{
+			echo'
+				<li role="presentation">
+					<a href="#calendar" aria-controls="calendar" role="tab" data-toggle="tab">
+						<i class="fa fa-calendar"></i>
+						<span>&nbsp;', $context['calendar_only_today'] ? $txt['calendar_today'] : $txt['calendar_upcoming'], '</span>
+					</a>
+				</li>';
+
+			} 
+			if ($settings['show_stats_index'])
+			{
+			echo'
+				<li role="presentation">
+					<a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">
+						<i class="fa fa-signal"></i>
+						<span>&nbsp;', $txt['forum_stats'], '</span>
+					</a>
+				</li>'; 
+			}
+			echo'
+				<li role="presentation" class="active">
+					<a href="#users" aria-controls="users" role="tab" data-toggle="tab">
+						<i class="fa fa-users"></i>
+						<span>&nbsp;', $txt['online_users'], '</span>
+					</a>
+				</li>';
+			if ($context['user']['is_logged'] && !$settings['show_stats_index'])
+			{
+			echo'
+				<li role="presentation">
+					<a href="#infopm" aria-controls="infopm" role="tab" data-toggle="tab">
+						<i class="fa fa-envelope"></i>
+						<span>&nbsp;', $txt['personal_message'], '</span>
+					</a>
+				</li>'; 
+			}
+				echo'			
+			</ul>
+			<div class="tab-content">';
 
 	// This is the "Recent Posts" bar.
 	if (!empty($settings['number_recent_posts']) && (!empty($context['latest_posts']) || !empty($context['latest_post'])))
 	{
 		echo '
-			<div class="title_barIC">
-				<h4 class="titlebg">
-					<span class="ie6_header floatleft">
-						<a href="', $scripturl, '?action=recent"><img class="icon" src="', $settings['images_url'], '/post/xx.gif" alt="', $txt['recent_posts'], '" /></a>
-						', $txt['recent_posts'], '
-					</span>
-				</h4>
-			</div>
-			<div class="ICbg">
-			<div class="hslice" id="recent_posts_content">
+			<div class="hslice tab-pane" id="recent_posts_content recent" role="tabpanel">
 				<div class="entry-title" style="display: none;">', $context['forum_name_html_safe'], ' - ', $txt['recent_posts'], '</div>
 				<div class="entry-content" style="display: none;">
 					<a rel="feedurl" href="', $scripturl, '?action=.xml;type=webslice">', $txt['subscribe_webslice'], '</a>
@@ -332,23 +356,14 @@ function template_info_center()
 				</dl>';
 		}
 		echo '
-			</div></div>';
+			</div>';
 	}
 
 	// Show information about events, birthdays, and holidays on the calendar.
 	if ($context['show_calendar'])
 	{
 		echo '
-			<div class="title_barIC">
-				<h4 class="titlebg">
-					<span class="ie6_header floatleft">
-						<a href="', $scripturl, '?action=calendar' . '"><img class="icon" src="', $settings['images_url'], '/icons/calendar.gif', '" alt="', $context['calendar_only_today'] ? $txt['calendar_today'] : $txt['calendar_upcoming'], '" /></a>
-						', $context['calendar_only_today'] ? $txt['calendar_today'] : $txt['calendar_upcoming'], '
-					</span>
-				</h4>
-			</div>
-			<div class="ICbg">
-			<p class="smalltext">';
+			<p class="smalltext tab-pane" id="calendar" role="tabpanel">';
 
 		// Holidays like "Christmas", "Chanukah", and "We Love [Unknown] Day" :P.
 		if (!empty($context['calendar_holidays']))
@@ -378,105 +393,79 @@ function template_info_center()
 					', $event['can_edit'] ? '<a href="' . $event['modify_href'] . '" title="' . $txt['calendar_edit'] . '"><img src="' . $settings['images_url'] . '/icons/modify_small.gif" alt="*" /></a> ' : '', $event['href'] == '' ? '' : '<a href="' . $event['href'] . '">', $event['is_today'] ? '<strong>' . $event['title'] . '</strong>' : $event['title'], $event['href'] == '' ? '' : '</a>', $event['is_last'] ? '<br />' : ', ';
 		}
 		echo '
-			</p>
-		    </div>';
+			</p>';
 	}
 
 	// Show statistical style information...
 	if ($settings['show_stats_index'])
 	{
 		echo '
-			<div class="title_barIC">
-				<h4 class="titlebg">
-					<span class="ie6_header floatleft">
-						<a href="', $scripturl, '?action=stats"><img class="icon" src="', $settings['images_url'], '/icons/info.gif" alt="', $txt['forum_stats'], '" /></a>
-						', $txt['forum_stats'], '
-					</span>
-				</h4>
-			</div>
-			<div class="ICbg">
-			<p>
+			<p class="tab-pane" id="stats" role="tabpanel">
 				', $context['common_stats']['total_posts'], ' ', $txt['posts_made'], ' ', $txt['in'], ' ', $context['common_stats']['total_topics'], ' ', $txt['topics'], ' ', $txt['by'], ' ', $context['common_stats']['total_members'], ' ', $txt['members'], '. ', !empty($settings['show_latest_member']) ? $txt['latest_member'] . ': <strong> ' . $context['common_stats']['latest_member']['link'] . '</strong>' : '', '<br />
 				', (!empty($context['latest_post']) ? $txt['latest_post'] . ': <strong>&quot;' . $context['latest_post']['link'] . '&quot;</strong>  ( ' . $context['latest_post']['time'] . ' )<br />' : ''), '
 				<a href="', $scripturl, '?action=recent">', $txt['recent_view'], '</a>', $context['show_stats'] ? '<br />
 				<a href="' . $scripturl . '?action=stats">' . $txt['more_stats'] . '</a>' : '', '
-			</p>
-			</div>';
+			</p>';
 	}
 
 	// "Users online" - in order of activity.
 	echo '
-			<div class="title_barIC">
-				<h4 class="titlebg">
-					<span class="ie6_header floatleft">
-						', $context['show_who'] ? '<a href="' . $scripturl . '?action=who' . '">' : '', '<img class="icon" src="', $settings['images_url'], '/icons/online.gif', '" alt="', $txt['online_users'], '" />', $context['show_who'] ? '</a>' : '', '
-						', $txt['online_users'], '
-					</span>
-				</h4>
-			</div>
-			<div class="ICbg">
-			<p class="inline stats">
-				', $context['show_who'] ? '<a href="' . $scripturl . '?action=who">' : '', comma_format($context['num_guests']), ' ', $context['num_guests'] == 1 ? $txt['guest'] : $txt['guests'], ', ' . comma_format($context['num_users_online']), ' ', $context['num_users_online'] == 1 ? $txt['user'] : $txt['users'];
+			<div class="tab-pane active" id="users" role="tabpanel">
+				<p class="inline stats">
+					', $context['show_who'] ? '<a href="' . $scripturl . '?action=who">' : '', comma_format($context['num_guests']), ' ', $context['num_guests'] == 1 ? $txt['guest'] : $txt['guests'], ', ' . comma_format($context['num_users_online']), ' ', $context['num_users_online'] == 1 ? $txt['user'] : $txt['users'];
 
-	// Handle hidden users and buddies.
-	$bracketList = array();
-	if ($context['show_buddies'])
-		$bracketList[] = comma_format($context['num_buddies']) . ' ' . ($context['num_buddies'] == 1 ? $txt['buddy'] : $txt['buddies']);
-	if (!empty($context['num_spiders']))
-		$bracketList[] = comma_format($context['num_spiders']) . ' ' . ($context['num_spiders'] == 1 ? $txt['spider'] : $txt['spiders']);
-	if (!empty($context['num_users_hidden']))
-		$bracketList[] = comma_format($context['num_users_hidden']) . ' ' . $txt['hidden'];
+		// Handle hidden users and buddies.
+		$bracketList = array();
+		if ($context['show_buddies'])
+			$bracketList[] = comma_format($context['num_buddies']) . ' ' . ($context['num_buddies'] == 1 ? $txt['buddy'] : $txt['buddies']);
+		if (!empty($context['num_spiders']))
+			$bracketList[] = comma_format($context['num_spiders']) . ' ' . ($context['num_spiders'] == 1 ? $txt['spider'] : $txt['spiders']);
+		if (!empty($context['num_users_hidden']))
+			$bracketList[] = comma_format($context['num_users_hidden']) . ' ' . $txt['hidden'];
 
-	if (!empty($bracketList))
-		echo ' (' . implode(', ', $bracketList) . ')';
+		if (!empty($bracketList))
+			echo ' (' . implode(', ', $bracketList) . ')';
 
-	echo $context['show_who'] ? '</a>' : '', '
-			</p>
-			<p class="inline smalltext">';
+		echo $context['show_who'] ? '</a>' : '', '
+				</p>
+				<p class="inline smalltext">';
 
-	// Assuming there ARE users online... each user in users_online has an id, username, name, group, href, and link.
-	if (!empty($context['users_online']))
-	{
-		echo '
-				', sprintf($txt['users_active'], $modSettings['lastActive']), ':<br />', implode(', ', $context['list_users_online']);
-
-		// Showing membergroups?
-		if (!empty($settings['show_group_key']) && !empty($context['membergroups']))
+		// Assuming there ARE users online... each user in users_online has an id, username, name, group, href, and link.
+		if (!empty($context['users_online']))
+		{
 			echo '
-				<br />[' . implode(']&nbsp;&nbsp;[', $context['membergroups']) . ']';
-	}
+					', sprintf($txt['users_active'], $modSettings['lastActive']), ':<br />', implode(', ', $context['list_users_online']);
 
-	echo '
-			</p>
-			<p class="last smalltext">
-				', $txt['most_online_today'], ': <strong>', comma_format($modSettings['mostOnlineToday']), '</strong>.
-				', $txt['most_online_ever'], ': ', comma_format($modSettings['mostOnline']), ' (', timeformat($modSettings['mostDate']), ')
-			</p>
+			// Showing membergroups?
+			if (!empty($settings['show_group_key']) && !empty($context['membergroups']))
+				echo '
+					<br />[' . implode(']&nbsp;&nbsp;[', $context['membergroups']) . ']';
+		}
+
+		echo '
+				</p>
+				<p class="last smalltext">
+					', $txt['most_online_today'], ': <strong>', comma_format($modSettings['mostOnlineToday']), '</strong>.
+					', $txt['most_online_ever'], ': ', comma_format($modSettings['mostOnline']), ' (', timeformat($modSettings['mostDate']), ')
+				</p>
 			</div>';
 
 	// If they are logged in, but statistical information is off... show a personal message bar.
 	if ($context['user']['is_logged'] && !$settings['show_stats_index'])
 	{
 		echo '
-			<div class="title_barIC">
-				<h4 class="titlebg">
-					<span class="ie6_header floatleft">
-						', $context['allow_pm'] ? '<a href="' . $scripturl . '?action=pm">' : '', '<img class="icon" src="', $settings['images_url'], '/message_sm.gif" alt="', $txt['personal_message'], '" />', $context['allow_pm'] ? '</a>' : '', '
-						<span>', $txt['personal_message'], '</span>
-					</span>
-				</h4>
-			</div>
-			<div class="ICbg">
-			<p class="pminfo">
+			<p class="pminfo tab-pane" id="infopm" role="tabpanel">
 				<strong><a href="', $scripturl, '?action=pm">', $txt['personal_message'], '</a></strong>
 				<span class="smalltext">
 					', $txt['you_have'], ' ', comma_format($context['user']['messages']), ' ', $context['user']['messages'] == 1 ? $txt['message_lowercase'] : $txt['msg_alert_messages'], '.... ', $txt['click'], ' <a href="', $scripturl, '?action=pm">', $txt['here'], '</a> ', $txt['to_view'], '
 				</span>
-			</p></div>';
+			</p>';
 	}
 
 	echo '
-		</div>';
+			</div>
+		</div>
+	</div>';
 
 	// Info center collapse object.
 	echo '

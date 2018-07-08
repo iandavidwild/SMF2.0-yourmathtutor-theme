@@ -158,6 +158,56 @@ function template_settings()
 
 	$context['theme_settings'] = array(
 		array(
+			'id' => 'header_logo_url',
+			'label' => $txt['header_logo_url'],
+			'description' => $txt['header_logo_url_desc'],
+			'type' => 'text',
+		),
+		array(
+			'id' => 'st_custom_copyright',
+			'label' => $txt['st_custom_copyright'],
+			'type' => 'text',
+		),
+		array(
+			'id' => 'forum_width',
+			'label' => $txt['forum_width'],
+			'description' => $txt['forum_width_desc'],
+			'type' => 'text',
+			'size' => 8,
+		),		
+		array(
+			'id' => 'smiley_sets_default',
+			'label' => $txt['smileys_default_set_for_theme'],
+			'options' => $context['smiley_sets'],
+			'type' => 'text',
+		),		
+	'',
+		array(
+			'id' => 'st_facebook_username',
+			'type' => 'text',
+			'label' => $txt['st_facebook_username'],
+			'description' => $txt['st_social_desc'],
+		),
+		array(
+			'id' => 'st_twitter_username',
+			'type' => 'text',
+			'label' => $txt['st_twitter_username'],
+			'description' => $txt['st_social_desc'],
+		),
+		array(
+			'id' => 'st_youtube_username',
+			'type' => 'text',
+			'label' => $txt['st_youtube_username'],
+			'description' => $txt['st_social_desc'],
+		),
+		array(
+			'id' => 'st_rss_url',
+			'type' => 'text',
+			'label' => $txt['st_rss_url'],
+			'description' => $txt['st_social_desc'],
+		),
+	'',
+		array(
 			'id' => 'linktree_link',
 			'label' => $txt['current_pos_text_img'],
 		),
@@ -168,10 +218,6 @@ function template_settings()
 		array(
 			'id' => 'allow_no_censored',
 			'label' => $txt['allow_no_censored'],
-		),
-		array(
-			'id' => 'enable_news',
-			'label' => $txt['enable_random_news'],
 		),
 	'',
 		array(

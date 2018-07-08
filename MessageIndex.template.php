@@ -31,8 +31,8 @@ function template_main()
 		foreach ($context['boards'] as $board)
 		{
 			echo '
-				<tr id="board_', $board['id'], '" class="boardbg">
-					<td class="icon"', !empty($board['children']) ? ' rowspan="1"' : '', '>
+				<tr id="board_', $board['id'], '" class="windowbg4">
+					<td class="icon">
 						<a href="', ($board['is_redirect'] || $context['user']['is_guest'] ? $board['href'] : $scripturl . '?action=unread;board=' . $board['id'] . '.0;children'), '">';
 
 			// If the board or children is new, show an indicator.
@@ -89,17 +89,18 @@ function template_main()
 					$children[] = $child['new'] ? '<strong>' . $child['link'] . '</strong>' : $child['link'];
 				}
 				echo '
-				<p><strong>', $txt['parent_boards'], '</strong>: ', implode(', ', $children), '</p>';
+				<p id="board_', $board['id'], '_children" class="moderators"><strong>', $txt['parent_boards'], '</strong>: ', implode(', ', $children), '</p>';
 			}
+			
 			// Show some basic information about the number of posts, etc.
 			echo '
 					</td>
-					<td class="stats">
+					<td class="stats hidden-xs hidden-sm">
 						<p>', comma_format($board['posts']), ' ', $board['is_redirect'] ? $txt['redirects'] : $txt['posts'], ' <br />
 						', $board['is_redirect'] ? '' : comma_format($board['topics']) . ' ' . $txt['board_topics'], '
 						</p>
 					</td>
-					<td class="lastpost">';
+					<td class="lastpost hidden-xs hidden-sm">';
 
 			/* The board's and children's 'last_post's have:
 			time, timestamp (a number that represents the time.), id (of the post), topic (topic id.),
@@ -167,24 +168,24 @@ function template_main()
 			echo '
 					<th scope="col" class="first_th" width="8%" colspan="2">&nbsp;</th>
 					<th scope="col" class="lefttext"><a href="', $scripturl, '?board=', $context['current_board'], '.', $context['start'], ';sort=subject', $context['sort_by'] == 'subject' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['subject'], $context['sort_by'] == 'subject' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a> / <a href="', $scripturl, '?board=', $context['current_board'], '.', $context['start'], ';sort=starter', $context['sort_by'] == 'starter' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['started_by'], $context['sort_by'] == 'starter' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a></th>
-					<th scope="col" width="14%"><a href="', $scripturl, '?board=', $context['current_board'], '.', $context['start'], ';sort=replies', $context['sort_by'] == 'replies' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['replies'], $context['sort_by'] == 'replies' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a> / <a href="', $scripturl, '?board=', $context['current_board'], '.', $context['start'], ';sort=views', $context['sort_by'] == 'views' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['views'], $context['sort_by'] == 'views' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a></th>';
+					<th scope="col" width="14%" class="hidden-xs hidden-sm"><a href="', $scripturl, '?board=', $context['current_board'], '.', $context['start'], ';sort=replies', $context['sort_by'] == 'replies' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['replies'], $context['sort_by'] == 'replies' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a> / <a href="', $scripturl, '?board=', $context['current_board'], '.', $context['start'], ';sort=views', $context['sort_by'] == 'views' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['views'], $context['sort_by'] == 'views' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a></th>';
 			// Show a "select all" box for quick moderation?
 			if (empty($context['can_quick_mod']))
 				echo '
-					<th scope="col" class="lefttext last_th" width="22%"><a href="', $scripturl, '?board=', $context['current_board'], '.', $context['start'], ';sort=last_post', $context['sort_by'] == 'last_post' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['last_post'], $context['sort_by'] == 'last_post' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a></th>';
+					<th scope="col" class="last_th lefttext hidden-xs hidden-sm" width="22%"><a href="', $scripturl, '?board=', $context['current_board'], '.', $context['start'], ';sort=last_post', $context['sort_by'] == 'last_post' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['last_post'], $context['sort_by'] == 'last_post' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a></th>';
 			else
 				echo '
-					<th scope="col" class="lefttext" width="22%"><a href="', $scripturl, '?board=', $context['current_board'], '.', $context['start'], ';sort=last_post', $context['sort_by'] == 'last_post' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['last_post'], $context['sort_by'] == 'last_post' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a></th>';
+					<th scope="col" class="last_th lefttext hidden-xs hidden-sm" width="22%"><a href="', $scripturl, '?board=', $context['current_board'], '.', $context['start'], ';sort=last_post', $context['sort_by'] == 'last_post' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['last_post'], $context['sort_by'] == 'last_post' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a></th>';
 
 			// Show a "select all" box for quick moderation?
 			if (!empty($context['can_quick_mod']) && $options['display_quick_mod'] == 1)
 				echo '
-					<th scope="col" class="last_th" width="24"><input type="checkbox" onclick="invertAll(this, this.form, \'topics[]\');" class="input_check" /></th>';
+					<th scope="col" class="last_th hidden-xs hidden-sm" width="24"><input type="checkbox" onclick="invertAll(this, this.form, \'topics[]\');" class="input_check" /></th>';
 
 			// If it's on in "image" mode, don't show anything but the column.
 			elseif (!empty($context['can_quick_mod']))
 				echo '
-					<th class="last_th" width="4%">&nbsp;</th>';
+					<th class="last_th hidden-xs hidden-sm" width="4%">&nbsp;</th>';
 		}
 		// No topics.... just say, "sorry bub".
 		else
@@ -239,10 +240,10 @@ function template_main()
 				$color_class = 'lockedbg';
 			// Last, but not least: regular topics.
 			else
-				$color_class = 'windowbg';
+				$color_class = 'windowbg4';
 
 			// Some columns require a different shade of the color class.
-			$alternate_class = $color_class . '2';
+			$alternate_class = $color_class;
 
 			echo '
 				<tr>
@@ -254,7 +255,7 @@ function template_main()
 					</td>
 					<td class="subject ', $alternate_class, '">
 						<div ', (!empty($topic['quick_mod']['modify']) ? 'id="topic_' . $topic['first_post']['id'] . '" onmouseout="mouse_on_div = 0;" onmouseover="mouse_on_div = 1;" ondblclick="modify_topic(\'' . $topic['id'] . '\', \'' . $topic['first_post']['id'] . '\');"' : ''), '>
-							', $topic['is_sticky'] ? '<strong>' : '', '<span id="msg_' . $topic['first_post']['id'] . '">', $topic['first_post']['link'], (!$context['can_approve_posts'] && !$topic['approved'] ? '&nbsp;<em>(' . $txt['awaiting_approval'] . ')</em>' : ''), '</span>', $topic['is_sticky'] ? '</strong>' : '';
+							', $topic['is_sticky'] ? '' : '', '<span id="msg_' . $topic['first_post']['id'] . '">', $topic['first_post']['link'], (!$context['can_approve_posts'] && !$topic['approved'] ? '&nbsp;<em>(' . $txt['awaiting_approval'] . ')</em>' : ''), '</span>', $topic['is_sticky'] ? '' : '';
 
 			// Is this topic new? (assuming they are logged in!)
 			if ($topic['new'] && $context['user']['is_logged'])
@@ -267,12 +268,12 @@ function template_main()
 							</p>
 						</div>
 					</td>
-					<td class="stats ', $color_class, '">
+					<td class="stats ', $color_class, ' hidden-xs hidden-sm">
 						', $topic['replies'], ' ', $txt['replies'], '
 						<br />
 						', $topic['views'], ' ', $txt['views'], '
 					</td>
-					<td class="lastpost ', $alternate_class, '">
+					<td class="lastpost ', $alternate_class, '  hidden-xs hidden-sm">
 						<a href="', $topic['last_post']['href'], '"><img src="', $settings['images_url'], '/icons/last_post.gif" alt="', $txt['last_post'], '" title="', $txt['last_post'], '" /></a>
 						', $topic['last_post']['time'], '<br />
 						', $txt['by'], ' ', $topic['last_post']['member']['link'], '
@@ -282,7 +283,7 @@ function template_main()
 			if (!empty($context['can_quick_mod']))
 			{
 				echo '
-					<td class="moderation ', $color_class, '" align="center">';
+					<td class="moderation ', $color_class, ' hidden-xs hidden-sm" align="center">';
 				if ($options['display_quick_mod'] == 1)
 					echo '
 						<input type="checkbox" name="topics[]" value="', $topic['id'], '" class="input_check" />';
@@ -314,7 +315,7 @@ function template_main()
 		if (!empty($context['can_quick_mod']) && $options['display_quick_mod'] == 1 && !empty($context['topics']))
 		{
 			echo '
-				<tr class="titlebg">
+				<tr class="titlebg hidden-xs hidden-sm">
 					<td colspan="6" align="right">
 						<select class="qaction" name="qaction"', $context['can_move'] ? ' onchange="this.form.moveItTo.disabled = (this.options[this.selectedIndex].value != \'move\');"' : '', '>
 							<option value="">--------</option>', $context['can_remove'] ? '
@@ -372,9 +373,6 @@ function template_main()
 		<div class="pagelinks">', $txt['pages'], ': ', $context['page_index'], !empty($modSettings['topbottomEnable']) ? $context['menu_separator'] . '&nbsp;&nbsp;<a href="#top"><strong>' . $txt['go_up'] . '</strong></a>' : '', '</div>
 	</div>';
 	}
-
-	// Show breadcrumbs at the bottom too.
-	theme_linktree();
 
 	echo '
 	<div class="tborder" id="topic_icons">
