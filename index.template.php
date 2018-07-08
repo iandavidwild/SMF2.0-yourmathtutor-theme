@@ -320,8 +320,8 @@ function template_body_below()
 			</ul>
 			<ul class="reset">
 				<li class="copyright">', theme_copyright(), '</li>
-				<li class="copyright">Designed by <a href="http://smftricks.com/index.php?action=profile;u=3458">Raphisio</a>. Theme by <a href="http://smftricks.com/index.php">SMFTricks</a></li>
-				<li class="copyright">', !empty($settings['st_custom_copyright']) ? $settings['st_custom_copyright'] : $context['forum_name'] . ' &copy;' , '</li>
+				<li class="copyright">YourMathsTutor theme by <a href="https://luminaconsultancy.com">Lumina Consultancy Limited</a> &copy; 2018</li>
+				<li class="copyright">Based on Exodus theme designed by <a href="http://smftricks.com/index.php?action=profile;u=3458">Raphisio</a> at <a href="http://smftricks.com/index.php">SMFTricks</a></li>
 			</ul>';
 
 		// Show the load time?
