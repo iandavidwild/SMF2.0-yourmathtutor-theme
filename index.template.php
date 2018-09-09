@@ -252,19 +252,46 @@ function template_body_above()
 		if($context['user']['is_logged'])
 		{
 			echo'
-            <div class="user">
-    			<img class="avatar img-circle img-thumbnail floatleft" src="', !empty($context['user']['avatar']['href']) ? $context['user']['avatar']['href'] : $settings['images_url']. '/noavatar.png' ,'" alt="*" />
-    			<ul class="reset">
-                    <li>
-                        <a class="h4" href="', $scripturl , '?action=profile">Hello ', $context['user']['name'], '</a>
-    			    </li>
-                    <li>
-                        <a href="', $scripturl, '?action=unread">', $txt['unread_since_visit'], '</a>
-    			    </li>
-                    <li>
-                        <a href="', $scripturl, '?action=unreadreplies">', $txt['show_unread_replies'], '</a>
-                    </li>
-                <ul>
+            <div class="header_wrapper">
+                <div class="user">
+        			<img class="avatar img-circle img-thumbnail floatleft" src="', !empty($context['user']['avatar']['href']) ? $context['user']['avatar']['href'] : $settings['images_url']. '/noavatar.png' ,'" alt="*" />
+        			<ul class="reset">
+                        <li>
+                            <a class="h4" href="', $scripturl , '?action=profile">Hello ', $context['user']['name'], '</a>
+        			    </li>
+                        <li>
+                            <a href="', $scripturl, '?action=unread">', $txt['unread_since_visit'], '</a>
+        			    </li>
+                        <li>
+                            <a href="', $scripturl, '?action=unreadreplies">', $txt['show_unread_replies'], '</a>
+                        </li>
+                    <ul>
+                </div>
+    			<div class="social">
+                    <ul class="social">';
+    				if(!empty($settings['st_facebook_username']))
+    				echo'
+    				<li>
+    					<a href="http://www.facebook.com/', $settings['st_facebook_username'] ,'" target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
+    				</li>';
+    				if(!empty($settings['st_twitter_username']))
+    				echo'			
+    				<li>
+    					<a href="http://www.twitter.com/', $settings['st_twitter_username'] ,'" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+    				</li>';
+    				if(!empty($settings['st_youtube_username']))
+    				echo'
+    				<li>
+    					<a href="http://www.youtube.com/user/', $settings['st_youtube_username'] ,'" target="_blank"><i class="fa fa-youtube fa-2x"></i></a>
+    				</li>';
+    				if(!empty($settings['st_rss_url']))
+    				echo'
+    				<li>
+    					<a href="', $settings['st_rss_url'] ,'" target="_blank"><i class="fa fa-rss fa-2x"></i></a>
+    				</li>';
+    				echo'
+    			</ul>
+                </div>
             </div>';
 			// Is the forum in maintenance mode?
 			if ($context['in_maintenance'] && $context['user']['is_admin'])
@@ -303,29 +330,6 @@ function template_body_below()
 		// Show the "Powered by" and "Valid" logos, as well as the copyright. Remember, the copyright must be somewhere!
 		echo '
 		<footer>
-			<ul class="social">';
-				if(!empty($settings['st_facebook_username']))
-				echo'
-				<li>
-					<a href="http://www.facebook.com/', $settings['st_facebook_username'] ,'" target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
-				</li>';
-				if(!empty($settings['st_twitter_username']))
-				echo'			
-				<li>
-					<a href="http://www.twitter.com/', $settings['st_twitter_username'] ,'" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
-				</li>';
-				if(!empty($settings['st_youtube_username']))
-				echo'
-				<li>
-					<a href="http://www.youtube.com/user/', $settings['st_youtube_username'] ,'" target="_blank"><i class="fa fa-youtube fa-2x"></i></a>
-				</li>';
-				if(!empty($settings['st_rss_url']))
-				echo'
-				<li>
-					<a href="', $settings['st_rss_url'] ,'" target="_blank"><i class="fa fa-rss fa-2x"></i></a>
-				</li>';
-				echo'
-			</ul>
 			<ul class="reset">
 				<li class="copyright">', theme_copyright(), '</li>
 				<li class="copyright">YourMathsTutor theme by <a href="https://luminaconsultancy.com">Lumina Consultancy Limited</a> &copy; 2018</li>
