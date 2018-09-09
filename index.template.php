@@ -252,12 +252,20 @@ function template_body_above()
 		if($context['user']['is_logged'])
 		{
 			echo'
-			<img class="avatar img-circle img-thumbnail floatright" src="', !empty($context['user']['avatar']['href']) ? $context['user']['avatar']['href'] : $settings['images_url']. '/noavatar.png' ,'" alt="*" />
-			<a class="h4" href="', $scripturl , '?action=profile">', $context['user']['name'], '</a>
-			<a href="', $scripturl, '?action=profile;area=forumprofile">', $txt['forumprofile'], '</a>
-			<a href="', $scripturl, '?action=profile;area=account">', $txt['account'], '</a>
-			<a href="', $scripturl, '?action=unread">', $txt['unread_topics_visit'], '</a>
-			<a href="', $scripturl, '?action=unreadreplies">', $txt['unread_replies'], '</a>';
+            <div class="user">
+    			<img class="avatar img-circle img-thumbnail floatleft" src="', !empty($context['user']['avatar']['href']) ? $context['user']['avatar']['href'] : $settings['images_url']. '/noavatar.png' ,'" alt="*" />
+    			<ul class="reset">
+                    <li>
+                        <a class="h4" href="', $scripturl , '?action=profile">Hello ', $context['user']['name'], '</a>
+    			    </li>
+                    <li>
+                        <a href="', $scripturl, '?action=unread">', $txt['unread_topics_visit'], '</a>
+    			    </li>
+                    <li>
+                        <a href="', $scripturl, '?action=unreadreplies">', $txt['unread_replies'], '</a>
+                    </li>
+                <ul>
+            </div>';
 			// Is the forum in maintenance mode?
 			if ($context['in_maintenance'] && $context['user']['is_admin'])
 				echo '
