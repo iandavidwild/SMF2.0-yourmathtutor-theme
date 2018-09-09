@@ -3760,7 +3760,7 @@ ul.social
 {
 	float: right;
 	list-style: none;
-	margin: 0;
+	margin: 10px;
 	padding: 0;
 }
 ul.social li
@@ -3857,6 +3857,26 @@ header a:hover
 {
 	header div.user {
 	   width: 100%;
+	}
+	
+	header div.header_wrapper {
+	   position: relative;
+	}
+	
+	header div.social {
+	   position: absolute;
+	   top: 0px;
+	   right: 0px;
+	   margin: 0px 10px 0px 0px;
+	}
+	
+	header ul.social li .fa-2x {
+       font-size: 1em;
+       width: 30px;
+    }
+    
+	header div.social ul {
+	   margin: 0px;
 	}
 	
 	header .avatar
