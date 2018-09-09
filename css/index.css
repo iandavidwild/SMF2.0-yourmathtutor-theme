@@ -3541,7 +3541,7 @@ div#logo {
 .navbar-default .navbar-nav > li > a
 {
 	padding-top: 15px;
-	padding-bottom: 0px;
+	padding-bottom: 15px;
 }
 
 #topbar .navbar-nav
