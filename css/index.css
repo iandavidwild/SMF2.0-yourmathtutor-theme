@@ -1646,6 +1646,10 @@ p#whoisviewing
 		position: absolute;
 		left: 16px;
 	}
+	
+	div.header_wrapper div.social {
+	   display: none;
+	}
 }
 /* poster details and list of items */
 .poster
@@ -3465,7 +3469,7 @@ span.hidelink
 div#logo {
     height: 60px;
     width: 100%;
-    text-align: center;
+    text-align: left;
 }
 #logo img
 {
@@ -3763,12 +3767,18 @@ ul.social
 	margin: 10px;
 	padding: 0;
 }
-ul.social li
+
+#topbar ul.nav li.social a
 {
-	float: left;
-	margin-left: 5px;
+	padding: 10px 0px 10px 10px;
 }
-ul.social li .fa
+
+#topbar ul.nav li.social a:hover
+{
+    background: transparent;
+}
+
+#topbar ul.nav li.social .fa
 {
 	border: 1px solid #444;
 	padding: 7px;
@@ -3780,31 +3790,85 @@ ul.social li .fa
     -o-transition: all .5s ease;
 	width: 40px;
 	text-align: center;
-	color: #444;
+	color: #444;   
+	font-size: 1.3em;
+	
 }
-ul.social li .fa:hover
+
+#topbar ul.nav li .fa:hover
 {
 	color: #fff;
 }
-ul.social li .fa-twitter:hover
+
+#topbar ul.nav li .fa-twitter:hover
 {
 	border: 1px solid #2FC2EF;
 	background: #2FC2EF;
 }
-ul.social li .fa-facebook:hover
+#topbar ul.nav li .fa-facebook:hover
 {
 	border: 1px solid #3a5795;
 	background: #3a5795;
 }
-ul.social li .fa-youtube:hover
+#topbar ul.nav li .fa-youtube:hover
 {
 	border: 1px solid #cc181e;
 	background: #cc181e;
 }
-ul.social li .fa-rss:hover
+#topbar ul.nav li .fa-rss:hover
 {
 	border: 1px solid #FF6600;
 	background: #FF6600;
+}
+ul.social
+{
+    float: right;
+    list-style: none;
+    margin: 10px;
+    padding: 0;
+}
+ul.social li
+{
+    float: left;
+    margin-left: 5px;
+}
+ul.social li .fa
+{
+    border: 1px solid #444;
+    padding: 7px;
+    border-radius: 100%;
+    transition: all .5s ease;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -ms-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    width: 40px;
+    text-align: center;
+    color: #444;
+}
+ul.social li .fa:hover
+{
+    color: #fff;
+}
+ul.social li .fa-twitter:hover
+{
+    border: 1px solid #2FC2EF;
+    background: #2FC2EF;
+}
+ul.social li .fa-facebook:hover
+{
+    border: 1px solid #3a5795;
+    background: #3a5795;
+}
+ul.social li .fa-youtube:hover
+{
+    border: 1px solid #cc181e;
+    background: #cc181e;
+}
+ul.social li .fa-rss:hover
+{
+    border: 1px solid #FF6600;
+    background: #FF6600;
 }
 @media (max-width: 991px)
 {
@@ -3853,8 +3917,16 @@ header a:hover
 {
 	text-decoration: none;
 }
-@media (max-width: 767px)
+@media (max-width: 768px)
 {
+	#topbar ul.nav li.social {
+	   display: none;
+	}
+	
+	header {
+	   min-height: 50px;
+	}
+	
 	header div.user {
 	   width: 100%;
 	}

@@ -2,7 +2,7 @@
 <theme-info xmlns="http://www.simplemachines.org/xml/theme-info" xmlns:smf="http://www.simplemachines.org/">
 	<!-- For the id, always use something unique - put your name, a colon, and then the package name. -->
 	<id>Lumina:YourMathsTutor</id>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<!-- Theme name, used purely for aesthetics. -->
 	<name>YourMathsTutor</name>
 	<!-- Author: your email address or contact information. The name attribute is optional. -->

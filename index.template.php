@@ -222,7 +222,27 @@ function template_body_above()
 				</li>
 				<li class="register"><a href="' , $scripturl , '?action=register"><i class="fa fa-key visible-xs"></i><span>', $txt['register'] ,'</span></a></li>';
 			}
-			echo'
+                if(!empty($settings['st_facebook_username']))
+    				echo'
+    				<li class="social">
+    					<a href="http://www.facebook.com/', $settings['st_facebook_username'] ,'" target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
+    				</li>';
+    				if(!empty($settings['st_twitter_username']))
+    				echo'			
+    				<li class="social">
+    					<a href="http://www.twitter.com/', $settings['st_twitter_username'] ,'" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+    				</li>';
+    				if(!empty($settings['st_youtube_username']))
+    				echo'
+    				<li class="social">
+    					<a href="http://www.youtube.com/user/', $settings['st_youtube_username'] ,'" target="_blank"><i class="fa fa-youtube fa-2x"></i></a>
+    				</li>';
+    				if(!empty($settings['st_rss_url']))
+    				echo'
+    				<li class="social">
+    					<a href="', $settings['st_rss_url'] ,'" target="_blank"><i class="fa fa-rss fa-2x"></i></a>
+    				</li>';
+    	echo'
 		</ul>
 		<div class="pull-right">
             <form id="search_form" action="', $scripturl, '?action=search2" method="post" accept-charset="', $context['character_set'], '" class="search-form hidden-xs">
@@ -246,13 +266,14 @@ function template_body_above()
 				<li class="search"><a href="' , $scripturl , '?action=search"><i class="fa fa-search visible-xs"></i></a></li>	
 			</ul>
 		</div>
-		<div id="logo"><a href="', $scripturl, '"><img src="' , !empty($context['header_logo_url_html_safe']) ? $context['header_logo_url_html_safe'] : $settings['images_url'] . '/logo.png' , '" alt="' . $context['forum_name'] . '" /></a></div>
+		<div id="logo"><a href="https://yourmathstutor.info" target="_blank"><img src="' , !empty($context['header_logo_url_html_safe']) ? $context['header_logo_url_html_safe'] : $settings['images_url'] . '/logo.png' , '" alt="' . $context['forum_name'] . '" /></a></div>
 	</div>
-	<header>'; 
+	<header>
+        <div class="header_wrapper">'; 
 		if($context['user']['is_logged'])
 		{
-			echo'
-            <div class="header_wrapper">
+		    echo'
+            
                 <div class="user">
         			<img class="avatar img-circle img-thumbnail floatleft" src="', !empty($context['user']['avatar']['href']) ? $context['user']['avatar']['href'] : $settings['images_url']. '/noavatar.png' ,'" alt="*" />
         			<ul class="reset">
@@ -266,8 +287,9 @@ function template_body_above()
                             <a href="', $scripturl, '?action=unreadreplies">', $txt['show_unread_replies'], '</a>
                         </li>
                     <ul>
-                </div>
-    			<div class="social">
+                </div>';
+		} 
+		echo ' <div class="social">
                     <ul class="social">';
     				if(!empty($settings['st_facebook_username']))
     				echo'
@@ -291,7 +313,7 @@ function template_body_above()
     				</li>';
     				echo'
     			</ul>
-                </div>
+            </div>      
             </div>';
 			// Is the forum in maintenance mode?
 			if ($context['in_maintenance'] && $context['user']['is_admin'])
@@ -304,9 +326,8 @@ function template_body_above()
 			if (!empty($context['open_mod_reports']) && $context['show_open_reports'])
 				echo '
 					<div class="h5"><a href="', $scripturl, '?action=moderate;area=reports">', sprintf($txt['mod_reports_waiting'], $context['open_mod_reports']), '</a></div>';
-		}
-		echo'
-	</header>';
+	
+	echo '</header>';
 	
 	template_menu();
 	theme_linktree();
