@@ -259,10 +259,10 @@ function template_body_above()
                         <a class="h4" href="', $scripturl , '?action=profile">Hello ', $context['user']['name'], '</a>
     			    </li>
                     <li>
-                        <a href="', $scripturl, '?action=unread">', $txt['unread_topics_visit'], '</a>
+                        <a href="', $scripturl, '?action=unread">', $txt['unread_since_visit'], '</a>
     			    </li>
                     <li>
-                        <a href="', $scripturl, '?action=unreadreplies">', $txt['unread_replies'], '</a>
+                        <a href="', $scripturl, '?action=unreadreplies">', $txt['show_unread_replies'], '</a>
                     </li>
                 <ul>
             </div>';
