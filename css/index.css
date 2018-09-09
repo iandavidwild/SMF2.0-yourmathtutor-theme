@@ -3459,7 +3459,7 @@ span.hidelink
 	box-shadow: 0 6px 12px rgba(0, 0, 0, .075);
 	min-height: 60px;
 	padding: 0;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 div#logo {
@@ -3532,11 +3532,18 @@ div#logo {
 	color: #444;
 	background: #FFF;
 }
-#topbar li a, .navbar-default .navbar-nav > li > a
+#topbar li a
 {
-	padding-top: 20px;
-	padding-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
+
+.navbar-default .navbar-nav > li > a
+{
+	padding-top: 15px;
+	padding-bottom: 0px;
+}
+
 #topbar .navbar-nav
 {
 	margin: 0;
@@ -3809,20 +3816,33 @@ ul.social li .fa-rss:hover
 }
 header
 {
-	padding: 10px 0 30px;
-	text-align: right;
+	padding: 10px 0 10px;
+	text-align: left;
 	overflow: hidden;
 }
+
+header div.user {
+	width: 50%;
+    float: left;
+    overflow: auto;
+}
+
 header .avatar
 {
-	width: 128px;
-	height: 128px;
-	margin-left: 15px;
+	width: 64px;
+	height: 64px;
+	margin: 0 1em 1em 0;
 }
+
 header a.h4,header a.h4:hover
 {
 	color: #396112;
 	display: block;
+	font-size: 1.3em;
+    font-weight: bold;
+    line-height: 1.5em;
+    margin-bottom: 2px;
+    margin-top: 0px; 
 }
 header a
 {
@@ -3835,6 +3855,10 @@ header a:hover
 }
 @media (max-width: 767px)
 {
+	header div.user {
+	   width: 100%;
+	}
+	
 	header .avatar
 	{
 		display: block;
